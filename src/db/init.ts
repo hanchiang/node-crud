@@ -12,7 +12,7 @@ const work = async () => {
     logger.debug('Inserted country data into DB');
 
     for (const user of userData) {
-      const hashedPassword = await auth.hash(user.password);
+      const hashedPassword = await auth.hashPassword(user.password);
       await User.create({
         email: user.email,
         password: hashedPassword,
