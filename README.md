@@ -7,6 +7,12 @@ Docker and docker compose are used for convenience of setting up the entire proj
 # Prerequisites
 * Install docker: https://docs.docker.com/get-docker/
 * Install docker compose: https://docs.docker.com/compose/install/
+* Create a MySQL schema named `task1`
+* Create MySQL tables using `src/db/schema.sql`
+* Populate database with data: `npm run build && node dist/db/init.js`
+
+# Installation
+* Run nodejs and mysql: `docker-compose up -d`
 
 # Project structure
 * `src/middlewares/`: Express middlewares such as error handler, try-catch function

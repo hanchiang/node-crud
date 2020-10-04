@@ -5,15 +5,17 @@ services:
     environment:
       - NODE_ENV=development
       - DB_HOST=mysql
-      - DB_NAME=mysql
-      - DB_USER=mysql
-      - DB_PASSWORD=mysql
+      - DB_NAME=task1
+      - DB_USER=root
+      - DB_PASSWORD=root
     ports:
       - 3000:3000
 
   mysql:
     environment:
-      - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_DATABASE=mysql
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=task1
       - MYSQL_USER=mysql
-      - MYSQL_PASSWORD=mysql
+      - MYSQL_PASSWORD=password
+    ports:
+      - 3306:3306

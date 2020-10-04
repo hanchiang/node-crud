@@ -3,6 +3,7 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "target": "es6",
     "noImplicitAny": false, // Might be overly stringent if this is set to true. Exercise judgement here
     "moduleResolution": "node",

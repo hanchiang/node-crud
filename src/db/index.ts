@@ -2,8 +2,11 @@ import { Sequelize } from 'sequelize';
 
 import config from '../config';
 import logger from '../util/logger';
+import { initUser } from './model/user';
+import { initCountry } from './model/country';
+export { User } from './model/user';
+export { Country } from './model/country';
 
-// Option 2: Passing parameters separately (other dialects)
 const sequelize = new Sequelize(
   config.dbName,
   config.dbUser,
@@ -22,3 +25,6 @@ sequelize
   .catch((error) => {
     logger.error('Unable to connect to the database:', error);
   });
+
+initUser(sequelize);
+initCountry(sequelize);
