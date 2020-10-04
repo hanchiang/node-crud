@@ -23,6 +23,19 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const allCountries = async (req: Request, res: Response) => {
-  const result = await service.getAllCountries();
-  res.json(result);
+  let result;
+  if (req.query.country) {
+    result = await service.getCountry(req.query.country);
+    if (result == null) {
+      throwError({
+        status: 404,
+        message: `${req.query.country} is not found`,
+      });
+    }
+    res.json(result);
+  } else {
+    res.json(await service.getAllCountries());
+  }
 };
+
+export const refreshToken = async (req: Request, res: Response) => {};

@@ -20,7 +20,7 @@ export const checkPassword = async (plaintext: string, hash: string) =>
   bcrypt.compare(plaintext, hash);
 
 export const signToken = async (
-  payload = {},
+  payload = { type: 'access' },
   options: any = { expiresIn: '5m' }
 ) => {
   options = { ...options, algorithm: 'RS256' };

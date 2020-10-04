@@ -30,3 +30,12 @@ export const getAllCountries = async () => {
   const countries = await Country.findAll({});
   return countries;
 };
+
+export const getCountry = async (name) => {
+  const country = await Country.findOne({
+    where: {
+      name,
+    },
+  });
+  return country;
+};

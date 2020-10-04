@@ -75,4 +75,27 @@ describe('Integration test', () => {
       expect(result.status).to.equal(200);
     });
   });
+
+  describe('Get country test', () => {
+    it('Error cases', async () => {
+      const token = await auth.signToken();
+      // no token
+      let result = await request(server).get('/countries');
+      expect(result.status).to.equal(401);
+
+      // country not found
+      result = await request(server)
+        .get('/countries?country=notfound')
+        .set({ Authorization: `Bearer ${token}` });
+      expect(result.status).to.equal(404);
+    });
+
+    it('Success case', async () => {
+      const token = await auth.signToken();
+      const result = await request(server)
+        .get('/countries?country=brazil')
+        .set({ Authorization: `Bearer ${token}` });
+      expect(result.status).to.equal(200);
+    });
+  });
 });
