@@ -22,8 +22,12 @@ export const login = async (email, password) => {
       message: `Wrong password`,
     });
   }
-  const token = await auth.signToken({ email });
-  return token;
+  const accessToken = await auth.signAccessToken({ email });
+  const refreshToken = await auth.signRefreshToken({ email });
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 export const getAllCountries = async () => {
@@ -38,4 +42,20 @@ export const getCountry = async (name) => {
     },
   });
   return country;
+};
+
+export const refreshToken = async (refreshToken) => {
+  try {
+    const decoded: any = await auth.verifyToken(refreshToken);
+    const newAccessToken = await auth.signAccessToken({ email: decoded.email });
+    const newRefreshToken = await auth.signRefreshToken({
+      email: decoded.email,
+    });
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  } catch (e) {
+    throwError({
+      status: 401,
+      message: e.message,
+    });
+  }
 };

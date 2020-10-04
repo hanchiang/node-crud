@@ -38,4 +38,12 @@ export const allCountries = async (req: Request, res: Response) => {
   }
 };
 
-export const refreshToken = async (req: Request, res: Response) => {};
+export const refreshToken = async (req: Request, res: Response) => {
+  if (req.body.refreshToken == null || req.body.refreshToken === '') {
+    throwError({
+      status: 401,
+      message: 'Refresh token is required',
+    });
+  }
+  res.json(await service.refreshToken(req.body.refreshToken));
+};

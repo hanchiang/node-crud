@@ -19,11 +19,7 @@ export const hashPassword = async (
 export const checkPassword = async (plaintext: string, hash: string) =>
   bcrypt.compare(plaintext, hash);
 
-export const signToken = async (
-  payload = { type: 'access' },
-  options: any = { expiresIn: '5m' }
-) => {
-  options = { ...options, algorithm: 'RS256' };
+export const _signToken = async (payload, options) => {
   return new Promise((resolve, reject) => {
     jwt.sign(payload, privateKey, options, (err, token) => {
       if (err) {
@@ -32,6 +28,24 @@ export const signToken = async (
       resolve(token);
     });
   });
+};
+
+export const signAccessToken = (
+  payload: any = {},
+  options: any = { expiresIn: '5m' }
+) => {
+  options = { ...options, algorithm: 'RS256' };
+  payload = { ...payload, type: 'access' };
+  return _signToken(payload, options);
+};
+
+export const signRefreshToken = (
+  payload: any = {},
+  options: any = { expiresIn: '365d' }
+) => {
+  options = { ...options, algorithm: 'RS256' };
+  payload = { ...payload, type: 'refresh' };
+  return _signToken(payload, options);
 };
 
 export const verifyToken = async (token) => {

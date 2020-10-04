@@ -6,7 +6,6 @@ import request from 'supertest';
 import app from '../../src/app';
 import config from '../config';
 import * as auth from '../../src/util/auth';
-import { expectCt } from 'helmet';
 
 let server: Server;
 
@@ -52,11 +51,17 @@ describe('Integration test', () => {
     });
 
     it('Success case', async () => {
-      const token = 'token';
-      sinon.stub(auth, 'signToken').resolves(token);
+      const accessToken = 'accessToken';
+      sinon.stub(auth, 'signAccessToken').resolves(accessToken);
+      const refreshToken = 'refreshToken';
+      sinon.stub(auth, 'signRefreshToken').resolves(refreshToken);
+
       const result = await request(server).post('/login').send(body);
       expect(result.status).to.equal(200);
-      expect(result.body.payload).to.equal(token);
+      expect(result.body.payload).to.eql({
+        accessToken,
+        refreshToken,
+      });
     });
   });
 
@@ -68,7 +73,7 @@ describe('Integration test', () => {
     });
 
     it('Success case', async () => {
-      const token = await auth.signToken();
+      const token = await auth.signAccessToken();
       const result = await request(server)
         .get('/countries')
         .set({ Authorization: `Bearer ${token}` });
@@ -78,7 +83,7 @@ describe('Integration test', () => {
 
   describe('Get country test', () => {
     it('Error cases', async () => {
-      const token = await auth.signToken();
+      const token = await auth.signAccessToken();
       // no token
       let result = await request(server).get('/countries');
       expect(result.status).to.equal(401);
@@ -91,10 +96,30 @@ describe('Integration test', () => {
     });
 
     it('Success case', async () => {
-      const token = await auth.signToken();
+      const token = await auth.signAccessToken();
       const result = await request(server)
         .get('/countries?country=brazil')
         .set({ Authorization: `Bearer ${token}` });
+      expect(result.status).to.equal(200);
+    });
+  });
+
+  describe('Refresh token test', () => {
+    it('Error cases', async () => {
+      // no refresh token
+      let result = await request(server).post('/refresh');
+      expect(result.status).to.equal(401);
+
+      // invalid refresh token
+      result = await request(server).post('/refresh');
+      expect(result.status).to.equal(401);
+    });
+
+    it('Success case', async () => {
+      const refreshToken = await auth.signRefreshToken();
+      const result = await request(server).post('/refresh').send({
+        refreshToken,
+      });
       expect(result.status).to.equal(200);
     });
   });
