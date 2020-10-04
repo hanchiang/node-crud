@@ -29,3 +29,6 @@
 * Install dependencies: `npm install`
   * Server is running at `localhost:3000`
 * Start server: `npm run debug`
+
+# Note
+* For this simple exercise, the RSA private key is committed to git. However for any live application, sensitive information should never be committed to git.
