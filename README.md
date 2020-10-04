@@ -1,9 +1,3 @@
-# Introduction
-
-This project is a quick starter for typescript and express.  
-Tests are written with mocha, supertest  
-Docker and docker compose are used for convenience of setting up the entire project
-
 # Prerequisites
 * Install docker: https://docs.docker.com/get-docker/
 * Install docker compose: https://docs.docker.com/compose/install/
