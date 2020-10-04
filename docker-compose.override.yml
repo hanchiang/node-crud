@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  node-app:
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_NAME=mysql
+      - DB_USER=mysql
+      - DB_PASSWORD=mysql
+    ports:
+      - 3000:3000
+
+  mysql:
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_DATABASE=mysql
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
