@@ -8,8 +8,12 @@ export enum ErrorCode {
   INTERNAL_SERVER_ERROR = 500,
 }
 
-export const throwError = (errObj: ThrowError) => {
+export const createError = (errObj: ThrowError) => {
   const error: any = new Error(errObj.message);
   error.status = errObj.status;
-  throw error;
+  return error;
+};
+
+export const throwError = (errObj: ThrowError) => {
+  throw createError(errObj);
 };

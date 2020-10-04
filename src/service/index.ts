@@ -1,4 +1,4 @@
-import { User } from '../db';
+import { User, Country } from '../db';
 import * as auth from '../util/auth';
 import { throwError } from '../util/error';
 
@@ -24,4 +24,9 @@ export const login = async (email, password) => {
   }
   const token = await auth.signToken({ email });
   return token;
+};
+
+export const getAllCountries = async () => {
+  const countries = await Country.findAll({});
+  return countries;
 };

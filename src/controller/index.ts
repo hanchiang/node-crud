@@ -21,3 +21,8 @@ export const login = async (req: Request, res: Response) => {
   const result = await service.login(email, password);
   res.json(result);
 };
+
+export const allCountries = async (req: Request, res: Response) => {
+  const result = await service.getAllCountries();
+  res.json(result);
+};

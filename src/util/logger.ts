@@ -4,6 +4,7 @@ const options: winston.LoggerOptions = {
   transports: [
     new winston.transports.Console({
       level: process.env.NODE_ENV === 'production' ? 'error' : 'debug',
+      silent: process.env.NODE_ENV === 'test',
     }),
     new winston.transports.File({ filename: 'debug.log', level: 'debug' }),
   ],

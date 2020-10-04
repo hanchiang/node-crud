@@ -4,6 +4,7 @@ import lusca from 'lusca';
 import helmet from 'helmet';
 
 import routes from './routes';
+import protectedRoutes from './routes/protected';
 import * as middlewares from './middlewares';
 import './db';
 
@@ -20,6 +21,9 @@ app.use(lusca.xssProtection(true));
 app.use(middlewares.formatResponse);
 
 app.use(routes);
+
+app.use(middlewares.verifyToken);
+app.use(protectedRoutes);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

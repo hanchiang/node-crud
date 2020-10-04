@@ -28,8 +28,10 @@ Docker and docker compose are used for convenience of setting up the entire proj
 
 # Run with docker compose
 * Start: `docker-compose up -d`
+  * Server is running at `localhost:3000`
 * Stop: `docker-compose down`
 
 # Run without docker compose
 * Install dependencies: `npm install`
+  * Server is running at `localhost:3000`
 * Start server: `npm run debug`

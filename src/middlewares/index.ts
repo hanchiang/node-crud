@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import config from '../config';
-import { throwError } from '../util/error';
+import { throwError, createError } from '../util/error';
 import { CustomError } from '../types/error';
+import * as auth from '../util/auth';
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
   throwError({
@@ -53,4 +54,30 @@ export const errorHandler = (
     error.stack = err.stack;
   }
   res.status(status).json(error);
+};
+
+export const verifyToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = (
+    req.header('Authorization') ||
+    req.header('authorization') ||
+    ''
+  ).replace('Bearer ', '');
+  if (token === '') {
+    return next(
+      createError({
+        status: 401,
+        message: 'Token is required',
+      })
+    );
+  }
+  try {
+    await auth.verifyToken(token);
+  } catch (e) {
+    next(e);
+  }
+  next();
 };
